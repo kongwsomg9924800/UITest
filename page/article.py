@@ -13,7 +13,13 @@ class AllArticle:
     def is_jump(self):
         ...
 
-    def check(self):
+    def check_1(self):
+        ...
+
+    def check_2(self):
+        ...
+
+    def check_3(self):
         ...
 
     def add(self):
