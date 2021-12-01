@@ -11,3 +11,4 @@ driver.find_element_by_id("kw").send_keys("kongweisheng")  # 定位到输入框�
 driver.find_element_by_id("su").click()  # 定位到搜索按钮（按id）并点击该按钮
 time.sleep(10)
 driver.quit()  # 关闭该浏览器进程
+print(333)
