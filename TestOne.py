@@ -28,4 +28,6 @@ class TestOne:
         self.driver.find_element(By.CSS_SELECTOR, 'input[placeholder = "密码"]').send_keys("123456Zz.")
         time.sleep(1)
         self.driver.find_element(By.XPATH, '//span[text()="登 录"]/..').click()  # 定位到上级标签
+        time.sleep(3)  # 登陆动作需要时间
+        assert self.driver.current_url == "http://1.117.156.17:8090/admin/index.html#/dashboard"
 
