@@ -36,3 +36,4 @@ class KindList:
 
 class Tag:
     ...
+
