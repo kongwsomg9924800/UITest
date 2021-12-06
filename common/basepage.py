@@ -9,11 +9,11 @@
 from selenium import webdriver
 
 
-class BasePage:
+class BasePage:  # 所有页面类的父类
     _url = None
 
     def __init__(self, driver: webdriver = None):
-        if driver is None:
+        if driver is None:  # 如果没有driver进程，打开浏览器，并指定Chromedriver版本
             self.driver = webdriver.Chrome(executable_path="/Users/kongweicheng/utils/selenium/chromedriver")
         else:
             self.driver = driver

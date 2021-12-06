@@ -6,3 +6,8 @@
 @time:2021/12/110:34 下午
 @DESC : 
 '''
+from common.basepage import BasePage
+
+
+class AuthorIndex(BasePage):
+    ...

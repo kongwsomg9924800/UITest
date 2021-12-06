@@ -6,3 +6,8 @@
 @time:2021/12/110:32 下午
 @DESC : 
 '''
+from common.basepage import BasePage
+
+
+class DashboardIndex(BasePage):
+    ...
