@@ -7,6 +7,7 @@
 @DESC : 
 '''
 import time
+import uuid
 
 import pytest
 
@@ -15,6 +16,8 @@ from page.index import Login
 
 
 class TestArticle:
+    # title = 'title  ' + str(uuid.uuid1())
+
     def setup_class(self):  # 前置条件 定位到"文章"
         self.l = Login().login()
 
@@ -22,14 +25,15 @@ class TestArticle:
         time.sleep(3)
         self.l.driver.quit()
 
-    @pytest.mark.run(order=1)
-    def test_write_caogao(self):
+    # @pytest.mark.run(order=1)   指定用例执行顺序
+    @pytest.mark.parametrize('title, des', [['title  ' + str(uuid.uuid1()), "miao shu"], ['title  ' + str(uuid.uuid1()), "miao shu 1"]])
+    def test_write_caogao(self, title, des):
         # 通过链式调用实现driver的传递，po模式的核心
-        res = self.l.enter_article().enter_all_article().caogao()
+        res = self.l.enter_article().enter_all_article().caogao(title, des)
         print(res)
         time.sleep(2)
 
-    @pytest.mark.run(order=2)
+    # @pytest.mark.run(order=2)
     def test_write_fabu(self):
         # 通过链式调用实现driver的传递，po模式的核心
         res = self.l.enter_article().enter_all_article().fabu()

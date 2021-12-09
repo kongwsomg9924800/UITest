@@ -41,40 +41,53 @@ class AllArticle(BasePage):
         '保存草稿': '//span[text()="保存草稿"]/..',
         '预览': '//span[text()="预 览"]/..',
         '发布': '//span[text()="发 布"]/..',
-        '标签':'span.ant-tree-checkbox-inner',
-        '附件库':'//span[text()="附件库"]/..',
+        '标签': 'span.ant-tree-checkbox-inner',
+        '附件库': '//span[text()="附件库"]/..',
     }
 
-    def write_article_1(self):
+    def write_article(self, title, des):
         time.sleep(2)
         self.driver.find_elements(By.CSS_SELECTOR, self.local_attr['写文章'])[1].click()
         time.sleep(2)
         # 先写标题，在写描述
-        self.driver.find_element(By.CSS_SELECTOR, self.local_attr['文章标题']).send_keys(
-            "title" + str(uuid.uuid1()))
-        self.driver.find_element(By.CSS_SELECTOR, self.local_attr['文章描述']).send_keys("zhe shi wen zhang des")
+        self.driver.find_element(By.CSS_SELECTOR, self.local_attr['文章标题']).send_keys(title)
+        self.driver.find_element(By.CSS_SELECTOR, self.local_attr['文章描述']).send_keys(des)
         return self.driver
 
-    def caogao(self):
-        self.write_article_1()
+    def caogao(self, title, des):
+        self.write_article(title, des)
         self.driver.find_element(By.XPATH, self.local_attr['保存草稿']).click()
 
-    def yulan(self):
-        self.write_article_1()
+    def yulan(self, title, des):
+        self.write_article(title, des)
         self.driver.find_element(By.XPATH, self.local_attr['预览']).click()
         time.sleep(1)
-        self.driver.switch_to.window(self.driver.window_handles[0])
+        self.driver.switch_to.window(self.driver.window_handles[0])  # 切换浏览器标签页到第一个
         time.sleep(2)
 
-    def fabu(self):
-        self.write_article_1()
+    def fabu(self, title, des):
+        self.write_article(title, des)
         self.driver.find_element(By.XPATH, self.local_attr['发布']).click()
         self.driver.find_elements(By.CSS_SELECTOR, self.local_attr['标签'])[0].click()
         self.driver.find_elements(By.XPATH, self.local_attr['保存草稿'])[1].click()
 
-    def fuianku(self):
-        self.write_article_1()
-        self.driver.find_element(By.XPATH,self.local_attr['附件库'] ).click()
+    def fuianku(self, title, des):
+        self.write_article(title, des)
+        self.driver.find_element(By.XPATH, self.local_attr['附件库']).click()
+
+    def del_article(self):
+        try:
+            for i in range(10):
+                if self.driver.find_elements(By.XPATH, '//a[text()="删除"]')[0]:
+                    ...
+                elif:
+                    ...
+
+                self.driver.find_elements(By.XPATH, '//a[text()="回收站"]')[i].click()
+                self.driver.find_elements(By.XPATH, '//span[text()="确 定"]/..')[1].click()
+                self.driver.find_element()
+        except:
+            print('======')
 
 
 class WriteArticle(BasePage):
