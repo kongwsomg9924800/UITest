@@ -35,12 +35,12 @@ class TestArticle:
         res = self.l.enter_article().enter_all_article().fabu()
         print(res)
 
-    # def test_write_yulan(self):
-    #     # 通过链式调用实现driver的传递，po模式的核心
-    #     res = self.l.enter_all_article().yulan()
-    #     print(res)
+    def test_write_yulan(self):
+        # 通过链式调用实现driver的传递，po模式的核心
+        res = self.l.enter_article().enter_all_article().yulan()
+        print(res)
 
-    # def test_write_fuianku(self):
-    #     # 通过链式调用实现driver的传递，po模式的核心
-    #     res = self.l.enter_article().enter_all_article().fuianku()
-    #     print(res)
+    def test_write_fuianku(self):
+        # 通过链式调用实现driver的传递，po模式的核心
+        res = self.l.enter_article().enter_all_article().fuianku()
+        print(res)

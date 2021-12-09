@@ -7,7 +7,7 @@
 @DESC : 
 '''
 import time
-
+import uuid
 from common.basepage import BasePage
 from selenium.webdriver.common.by import By
 
@@ -18,10 +18,6 @@ class ArticleIndex(BasePage):
         time.sleep(1)
         self.driver.find_element(By.XPATH, '//span[text()="所有文章"]/..').click()
         return AllArticle(driver=self.driver)
-
-    def textarea(self):
-        self.driver.find_element(By.XPATH, '//textarea[@placeholder="写点什么吧..."]').send_keys("###########3")
-        time.sleep(3)
 
     def enter_write_article(self):
         self.driver.find_element(By.XPATH, '//span[text()="写文章"]/..').click()
@@ -37,52 +33,48 @@ class ArticleIndex(BasePage):
 
 
 class AllArticle(BasePage):
+    # 所有文章页面，下面一个方法对应一个功能
+    local_attr = {
+        '写文章': 'button.ant-btn.ant-btn-primary',
+        '文章标题': 'input[placeholder="请输入文章标题"]',
+        '文章描述': 'textarea[placeholder="开始编辑..."]',
+        '保存草稿': '//span[text()="保存草稿"]/..',
+        '预览': '//span[text()="预 览"]/..',
+        '发布': '//span[text()="发 布"]/..',
+        '标签':'span.ant-tree-checkbox-inner',
+        '附件库':'//span[text()="附件库"]/..',
+    }
 
     def write_article_1(self):
         time.sleep(2)
-        self.driver.find_elements(By.CSS_SELECTOR, "button.ant-btn.ant-btn-primary")[1].click()
+        self.driver.find_elements(By.CSS_SELECTOR, self.local_attr['写文章'])[1].click()
         time.sleep(2)
         # 先写标题，在写描述
-        self.driver.find_element(By.CSS_SELECTOR, 'input[placeholder="请输入文章标题"]').send_keys("zhe222222 shi 2222333wen 21 zhang 3 2 title 1")
-        self.driver.find_element(By.CSS_SELECTOR, 'textarea[placeholder="开始编辑..."]').send_keys("zhe shi wen zhang des")
+        self.driver.find_element(By.CSS_SELECTOR, self.local_attr['文章标题']).send_keys(
+            "title" + str(uuid.uuid1()))
+        self.driver.find_element(By.CSS_SELECTOR, self.local_attr['文章描述']).send_keys("zhe shi wen zhang des")
         return self.driver
 
     def caogao(self):
         self.write_article_1()
-        self.driver.find_element(By.XPATH, '//span[text()="保存草稿"]/..').click()
+        self.driver.find_element(By.XPATH, self.local_attr['保存草稿']).click()
 
     def yulan(self):
         self.write_article_1()
-        self.driver.find_element(By.XPATH, '//span[text()="预 览"]/..').click()
+        self.driver.find_element(By.XPATH, self.local_attr['预览']).click()
+        time.sleep(1)
+        self.driver.switch_to.window(self.driver.window_handles[0])
+        time.sleep(2)
 
     def fabu(self):
         self.write_article_1()
-        self.driver.find_element(By.XPATH, '//span[text()="发 布"]/..').click()
+        self.driver.find_element(By.XPATH, self.local_attr['发布']).click()
+        self.driver.find_elements(By.CSS_SELECTOR, self.local_attr['标签'])[0].click()
+        self.driver.find_elements(By.XPATH, self.local_attr['保存草稿'])[1].click()
 
     def fuianku(self):
         self.write_article_1()
-        self.driver.find_element(By.XPATH, '//span[text()="附件库"]/..').click()
-
-
-    def write_article_2(self):
-        # 先写描述，在写标题
-        self.driver.find_elements(By.CSS_SELECTOR, "button.ant-btn.ant-btn-primary")[1].click()
-        time.sleep(2)
-
-        return self.driver.current_url
-
-
-    def check_1(self):
-        ...
-
-    def check_2(self):
-        ...
-
-    def check_3(self):
-        ...
-
-    def add(self):
-        ...
+        self.driver.find_element(By.XPATH,self.local_attr['附件库'] ).click()
 
 
 class WriteArticle(BasePage):
@@ -95,4 +87,3 @@ class KindList(BasePage):
 
 class Tag(BasePage):
     ...
-

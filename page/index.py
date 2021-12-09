@@ -31,12 +31,12 @@ class Index(BasePage):  # 登陆后跳转的页面
 
     def enter_article(self):
         self.driver.find_element(By.XPATH, '//span/span[text()="文章"]').click()
-        time.sleep(3)
+        time.sleep(1)
         return ArticleIndex(driver=self.driver)
 
     def enter_author(self):
         self.driver.find_element(By.XPATH, '//span/span[text()="用户"]').click()
-        time.sleep(3)
+        time.sleep(1)
         return AuthorIndex(driver=self.driver)
 
     def enter_dashboard(self):
@@ -44,5 +44,5 @@ class Index(BasePage):  # 登陆后跳转的页面
 
     def enter_view(self):
         self.driver.find_element(By.XPATH, '//span/span[text()="外观"]').click()
-        time.sleep(3)
+        time.sleep(1)
         return ViewIndex(driver=self.driver)
