@@ -37,4 +37,6 @@ if __name__ == '__main__':  # 程序入口，运行整个项目
     del_file(allure_path)
     pytest.main(['-s', '--alluredir', allure_path, case_path, '--html={}'.format(html_path),
                  '--self-contained-html'])  # pytest的内置方法 -s 参数是打印详细信息
-    # os.system('allure serve ' + allure_path)  # 运行allure服务
+    send_hock(html_path)
+    os.system('allure serve ' + allure_path + ' -p 61375')  # 运行allure服务
+

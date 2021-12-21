@@ -10,6 +10,8 @@ import configparser
 import shutil
 import sys
 import time
+import re
+from typing import List
 
 import requests as requests
 import yaml
@@ -71,8 +73,71 @@ def set_config(path: str, section: str, key: str, value: str) -> None:
     config.write(open(path, 'r+'))  # 保存
 
 
-def send_hock(des):
-    data = {"msg_type": "text", "content": {"text": des}}
+def send_hock(path):
+    info = get_html_info(path)
+    data = {
+        "msg_type": "post",
+        "content": {
+            "post": {
+                "zh_cn": {
+                    "title": "UI自动化测试报告：",
+                    "content": [
+                        [
+                            {
+                                "tag": "text",
+                                "text": "通过用例: "
+                            },
+                            {
+                                "tag": "text",
+                                "text": info[0],
+                            },
+                        ],
+                        [
+                            {
+                                "tag": "text",
+                                "text": "跳过用例: "
+                            },
+                            {
+                                "tag": "text",
+                                "text": info[1],
+                            },
+                        ],
+                        [
+                            {
+                                "tag": "text",
+                                "text": "失败用例: "
+                            },
+                            {
+                                "tag": "text",
+                                "text": info[2],
+                            },
+                        ],
+                        [
+                            {
+                                "tag": "text",
+                                "text": "报错用例: "
+                            },
+                            {
+                                "tag": "text",
+                                "text": info[3],
+                            },
+                        ],
+                        [
+                            {
+                                "tag": "text",
+                                "text": "allure报告: "
+                            },
+                            {
+                                "tag": "a",
+                                "text": "allure报告",
+                                "href": "http://127.0.0.1:61375"
+                            },
+                        ],
+                    ]
+                }
+            }
+        }
+    }
     res = requests.request(method='POST',
                            url='https://open.feishu.cn/open-apis/bot/v2/hook/179b90d2-4fca-4940-928c-b1119a7e9c95',
                            json=data)
@@ -83,11 +148,16 @@ def get_time():
     return time.strftime("%Y-%m-%d %H:%M:%S")
 
 
-def get_html_info(path):
+def get_html_info(path: str) -> List:
     with open(path, 'r', encoding='utf-8') as f:
         a = f.read()
-        # todo: 正则表达式
+        passed_case = re.findall('class="passed">(.*?)</span>', a)[0]
+        skipped_case = re.findall('class="skipped">(.*?)</span>', a)[0]
+        failed_case = re.findall('class="failed">(.*?)</span>', a)[0]
+        error_case = re.findall('class="error">(.*?)</span>', a)[0]
+        return [passed_case, skipped_case, failed_case, error_case]
 
 
 if __name__ == '__main__':
-    get_html_info('/Users/kongweicheng/code/linxin_learn/UITestT/report/html_report/2021-12-20 23:21:58.html')
+    send_hock(get_path('/reports/html/2021-12-21 21:07:50.html'))
+    # get_html_info(get_path('/reports/html/2021-12-21 21:07:50.html'))
